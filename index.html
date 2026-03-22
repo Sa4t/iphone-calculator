@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>iPhone Calculator Pro</title>
+<style>
+body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial;
+}
+.calculator {
+    width: 320px;
+}
+.display {
+    color: white;
+    font-size: 40px;
+    text-align: right;
+    padding: 20px;
+}
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+button {
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+}
+.gray { background: #a5a5a5; }
+.dark { background: #333; color: white; }
+.orange { background: #ff9500; color: white; }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button class="gray" onclick="clearDisplay()">C</button>
+        <button class="gray" onclick="append('Math.sqrt(')">√</button>
+        <button class="gray" onclick="append('/')">÷</button>
+        <button class="orange" onclick="append('*')">×</button>
+
+        <button class="dark" onclick="append('7')">7</button>
+        <button class="dark" onclick="append('8')">8</button>
+        <button class="dark" onclick="append('9')">9</button>
+        <button class="orange" onclick="append('-')">−</button>
+
+        <button class="dark" onclick="append('4')">4</button>
+        <button class="dark" onclick="append('5')">5</button>
+        <button class="dark" onclick="append('6')">6</button>
+        <button class="orange" onclick="append('+')">+</button>
+
+        <button class="dark" onclick="append('1')">1</button>
+        <button class="dark" onclick="append('2')">2</button>
+        <button class="dark" onclick="append('3')">3</button>
+        <button class="orange" onclick="calculate()">=</button>
+
+        <button class="dark" style="grid-column: span 2;" onclick="append('0')">0</button>
+        <button class="dark" onclick="append('.')">.</button>
+    </div>
+</div>
+
+<script>
+let input = "";
+
+// звук
+const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+
+const names = {
+    "1": "Ясин",
+    "7": "Роналдо",
+    "8": "Ваня",
+    "10": "Махмуд",
+    "67": "Сами",
+    "777": "Ахмед",
+    "666": "Венера"
+};
+
+function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+}
+
+function updateDisplay() {
+    if (names[input]) {
+        document.getElementById("display").innerText = names[input];
+    } else {
+        document.getElementById("display").innerText = input || "0";
+    }
+}
+
+function append(value) {
+    playSound();
+    input += value;
+    updateDisplay();
+}
+
+function clearDisplay() {
+    playSound();
+    input = "";
+    updateDisplay();
+}
+
+function calculate() {
+    playSound();
+    try {
+        let result = eval(input + ")");
+        document.getElementById("display").innerText = result;
+        input = result.toString();
+    } catch {
+        try {
+            let result = eval(input);
+            document.getElementById("display").innerText = result;
+            input = result.toString();
+        } catch {
+            document.getElementById("display").innerText = "Ошибка";
+            input = "";
+        }
+    }
+}
+</script>
+
+</body>
+</html>
